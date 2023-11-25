@@ -16,16 +16,28 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
 
-            NavHost(navController = navController, startDestination = "SignIn") {
+            NavHost(navController = navController, startDestination = "MainMenu") {
                 composable("SignIn") {
-                    SignIn() { navController.navigate("SignUp") { popUpTo("SignIn") {inclusive = true} } }
+                    SignIn() {
+                        navController.navigate("SignUp") {
+                            popUpTo("SignIn") {
+                                inclusive = true
+                            }
+                        }
+                    }
                 }
                 composable("SignUp") {
-                    SignUp() { navController.navigate("SignIn") { popUpTo("SignUp") {inclusive = true} } }
+                    SignUp() {
+                        navController.navigate("SignIn") {
+                            popUpTo("SignUp") {
+                                inclusive = true
+                            }
+                        }
+                    }
                 }
-                /*composable("MainMenu") {
-                    MainMenu() }
-                }*/
+                composable("MainMenu") {
+                    MainMenu()
+                }
             }
         }
     }
