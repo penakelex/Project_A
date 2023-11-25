@@ -32,8 +32,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.projecta.ui.screens.TextComponent
+
 
 @ExperimentalMaterial3Api
 @Composable
@@ -48,7 +51,9 @@ fun SignIn(toSignUp:()->Unit) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(20.dp, alignment= Alignment.CenterVertically)
         ) {
-            logoImage(modifier = Modifier.padding(bottom = 20.dp).size(150.dp))
+            logoImage(modifier = Modifier
+                .padding(bottom = 20.dp)
+                .size(150.dp))
             Text("Вход", textAlign = TextAlign.Center, fontSize = 30.sp)
             materialTextField(text=email, hint="Почта")
             materialPasswordTextField(text=password, hint="Пароль")
@@ -57,6 +62,8 @@ fun SignIn(toSignUp:()->Unit) {
         }
     }
 }
+
+
 
 @Composable
 fun logoImage(modifier: Modifier = Modifier) {
@@ -126,15 +133,15 @@ fun materialPasswordTextField(modifier: Modifier = Modifier, text: MutableState<
 }
 
 @Composable
-fun materialButton(modifier: Modifier = Modifier, text:String="", onClick:()->Unit) {
+fun materialButton(modifier: Modifier = Modifier, width: Int = 250, height: Int = 50, text:String="", onClick:()->Unit) {
     Button(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
             containerColor = Color(76, 182, 131)
         ),
         modifier = modifier
-            .width(250.dp)
-            .height(50.dp)
+            .width(width.dp)
+            .height(height.dp)
     ) {
         Text(text, textAlign = TextAlign.Center)
     }
