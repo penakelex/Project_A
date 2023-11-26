@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -27,6 +28,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Shapes
 import androidx.compose.material.Surface
@@ -133,7 +135,7 @@ fun EventCreator() {
                     }
                     TextComponent(labelValue = "Описание", modifier = Modifier
                         .fillMaxWidth()
-                        .height(456.dp))
+                        .fillMaxHeight(0.9f))
                     Row(modifier = Modifier
                         .fillMaxWidth()
                         .defaultMinSize(276.dp, 50.dp)
@@ -143,10 +145,12 @@ fun EventCreator() {
                         materialImageButton(modifier = Modifier
                             .padding(end = 5.dp, top = 11.dp)
                             .height(50.dp)
+                            .heightIn(40.dp)
                             .width(50.dp), painterResource(id = com.example.projecta.R.drawable.back)){}
                         materialButton(modifier = Modifier
                             .padding(start = 5.dp, top = 11.dp)
                             .fillMaxWidth()
+                            .heightIn(40.dp)
                             .height(50.dp), text = "Создать"){}
                     }
                 }
@@ -177,8 +181,15 @@ fun HeadingTextComponent(labelValue: String){
         value = textValue.value,
         textStyle = TextStyle(fontSize=20.sp, fontWeight = FontWeight.Bold),
         onValueChange = {
-            textValue.value = it
-        }
+            if (it.length <= 30) textValue.value = it
+        },
+        singleLine = true,
+    )
+    Text(
+        text = "${textValue.value.length} / 30",
+        textAlign = TextAlign.End,
+        style = MaterialTheme.typography.caption,
+        modifier = Modifier.fillMaxWidth().padding(end = 16.dp)
     )
 }
 @Composable
@@ -190,7 +201,7 @@ fun TextComponent(labelValue: String, modifier: Modifier = Modifier){
 
     OutlinedTextField(
         modifier = modifier,
-        label = { androidx.compose.material.Text(text = labelValue, fontSize = 15.sp) },
+        label = { androidx.compose.material.Text(text = labelValue, fontSize = 18.sp) },
         colors = androidx.compose.material.TextFieldDefaults.outlinedTextFieldColors(
             focusedLabelColor = Color.Black,
             cursorColor = Color.Black,
