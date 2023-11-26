@@ -7,6 +7,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.projecta.screens.EventCreator
 
 @ExperimentalMaterial3Api
 class MainActivity : ComponentActivity() {
