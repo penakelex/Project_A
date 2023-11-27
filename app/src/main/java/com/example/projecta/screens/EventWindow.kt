@@ -59,8 +59,7 @@ fun EventWindow() {
                             bottomEnd = 0.dp,
                             bottomStart = 0.dp,
                         )
-                    ),
-                backgroundColor = GreenBack
+                    )
             ){
                 IamgeEvent(painterResource = painterResource(id = R.drawable.exemple))
             }

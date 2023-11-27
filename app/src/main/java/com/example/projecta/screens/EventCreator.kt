@@ -113,8 +113,7 @@ fun EventCreator() {
                 Column(modifier = Modifier
                     .padding(bottom = 15.dp, top = 5.dp, start = 15.dp, end = 15.dp)
                     .fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    /*verticalArrangement = Arrangement.spacedBy(5.dp)*/
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ){
                     HeadingTextComponent(labelValue = "Заголовок")
 

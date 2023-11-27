@@ -28,7 +28,7 @@ import com.example.projecta.ui.theme.GreenBack
 import com.example.projecta.ui.theme.WhiteBack
 
 @Composable
-fun EventRedactor() {
+fun JoinToEvent() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -126,6 +126,6 @@ fun EventRedactor() {
 
 @Preview
 @Composable
-fun PreviewEventRedScreen(){
-    EventRedactor()
+fun PreviewJoinToEvent(){
+    JoinToEvent()
 }

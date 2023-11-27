@@ -99,7 +99,7 @@ fun PassOnEvent() {
                             .padding(end = 5.dp, top = 11.dp)
                             .height(50.dp)
                             .heightIn(40.dp)
-                            .width(50.dp), painterResource(id = com.example.projecta.R.drawable.back)){}
+                            .width(50.dp), painterResource(id = R.drawable.back)){}
                         materialButton(modifier = Modifier
                             .padding(start = 5.dp, top = 11.dp)
                             .fillMaxWidth()
