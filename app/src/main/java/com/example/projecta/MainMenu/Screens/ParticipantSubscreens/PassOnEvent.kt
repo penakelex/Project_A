@@ -1,7 +1,9 @@
-package com.example.projecta.screens
+package com.example.projecta.MainMenu.Screens.ParticipantSubscreens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
@@ -14,106 +16,86 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.projecta.Background
+import com.example.projecta.DiscriptionTextEvent
+import com.example.projecta.FromTimeTextEvent
+import com.example.projecta.HeadingTextEvent
 import com.example.projecta.MaterialButton
+import com.example.projecta.MaterialImageButton
 import com.example.projecta.R
-import com.example.projecta.materialButton
-import com.example.projecta.ui.theme.GrayBack
-import com.example.projecta.ui.theme.GreenBack
-import com.example.projecta.ui.theme.WhiteBack
+import com.example.projecta.ToTimeTextEvent
 
 @Composable
 fun PassOnEvent() {
-    Column(
+    Background()
+    androidx.compose.material3.Card(
         modifier = Modifier
             .fillMaxSize()
-            .background(GrayBack)
-    ){
-        Column(
-            modifier = Modifier
-                .padding(14.dp)
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.2f)
-                    .clip(
-                        RoundedCornerShape(
-                            topStart = 15.dp,
-                            topEnd = 15.dp,
-                            bottomEnd = 0.dp,
-                            bottomStart = 0.dp,
-                        )
-                    ),
-                backgroundColor = GreenBack
-            ){
-                IamgeEvent(painterResource = painterResource(id = R.drawable.exemple))
-            }
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-                    .clip(
-                        RoundedCornerShape(
-                            topStart = 0.dp,
-                            topEnd = 0.dp,
-                            bottomEnd = 15.dp,
-                            bottomStart = 15.dp,
-                        )
-                    ),
-                backgroundColor = Color.White,
+            .padding(10.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White)
 
-                ){
-                Column(modifier = Modifier
-                    .padding(bottom = 15.dp, top = 8.dp, start = 8.dp, end = 8.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.2f)
+        ) {
+            Image(
+                modifier = Modifier.fillMaxSize(),
+                painter = painterResource(id = R.drawable.default_image),
+                contentDescription = null,
+                contentScale = ContentScale.Crop
+            )
+        }
+        Scaffold(
+            bottomBar = {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth().padding(10.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.Bottom
+                ) {
+                    MaterialImageButton(
+                        modifier = Modifier
+                            .padding(top = 11.dp),
+                        painterResource= painterResource(id = R.drawable.back)
+                    ) {}
+                    MaterialButton(text = "Показать пропуск") {}
+                }
+            }
+        ) { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .padding(paddingValues)
                     .fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    /*verticalArrangement = Arrangement.spacedBy(5.dp)*/
-                ){
-                    HeadingTextEvent("Вебинар по разработке")
-                    Column(modifier = Modifier
+                horizontalAlignment = Alignment.CenterHorizontally,
+                /*verticalArrangement = Arrangement.spacedBy(5.dp)*/
+            ) {
+                Column(
+                    modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 8.dp, start = 15.dp, end = 15.dp),
-                        horizontalAlignment = Alignment.Start,
-                        verticalArrangement = Arrangement.spacedBy(3.dp)
-                    ) {
-                        FromTimeTextEvent(text = "Первое января, 2024, 14:30")
-                        ToTimeTextEvent(text = "Первое января, 2024, 15:40")
-                        DiscriptionTextEvent()
-                    }
-                    Row(modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight()
-                        .defaultMinSize(276.dp, 50.dp),
-                        horizontalArrangement = Arrangement.Start,
-                        verticalAlignment = Alignment.Bottom
-                    ){
-                        materialImageButton(modifier = Modifier
-                            .padding(end = 5.dp, top = 11.dp)
-                            .height(50.dp)
-                            .width(50.dp), painterResource(id = com.example.projecta.R.drawable.back)){}
-                        MaterialButton(modifier = Modifier
-                            .padding(start = 5.dp, top = 11.dp)
-                            .fillMaxWidth()
-                            .height(50.dp), text = "Показать пропуск"){}
-                    }
+                    horizontalAlignment = Alignment.Start,
+                    verticalArrangement = Arrangement.spacedBy(3.dp)
+                ) {
+                    HeadingTextEvent("Вебинар по разработке")
+                    FromTimeTextEvent(text = "Первое января, 2024, 14:30")
+                    ToTimeTextEvent(text = "Первое января, 2024, 15:40")
+                    DiscriptionTextEvent()
                 }
             }
         }
-    }
-}
 
-@Preview
-@Composable
-fun PreviewPassEvent(){
-    PassOnEvent()
+    }
 }
