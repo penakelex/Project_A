@@ -1,34 +1,25 @@
 package com.example.projecta.MainMenu.Screens.ParticipantSubscreens
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.projecta.Background
-import com.example.projecta.DiscriptionTextEvent
+import com.example.projecta.DescriptionTextEvent
 import com.example.projecta.FromTimeTextEvent
 import com.example.projecta.HeadingTextEvent
 import com.example.projecta.MaterialButton
@@ -37,7 +28,10 @@ import com.example.projecta.R
 import com.example.projecta.ToTimeTextEvent
 
 @Composable
-fun PassOnEvent() {
+fun EventInvitation(
+    BackNavigation:()->Unit,
+    MainMenuNavigation:()->Unit
+) {
     Background()
     androidx.compose.material3.Card(
         modifier = Modifier
@@ -62,16 +56,17 @@ fun PassOnEvent() {
             bottomBar = {
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth().padding(10.dp),
+                        .fillMaxWidth()
+                        .padding(10.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.Bottom
                 ) {
                     MaterialImageButton(
-                        modifier = Modifier
-                            .padding(top = 11.dp),
-                        painterResource= painterResource(id = R.drawable.back)
-                    ) {}
-                    MaterialButton(text = "Показать пропуск") {}
+                        modifier = Modifier.padding(top = 11.dp),
+                        painterResource = painterResource(id = R.drawable.back),
+                        onClick = BackNavigation
+                    )
+                    MaterialButton(text = "Присоединиться", onClick = MainMenuNavigation)
                 }
             }
         ) { paddingValues ->
@@ -80,7 +75,6 @@ fun PassOnEvent() {
                     .padding(paddingValues)
                     .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                /*verticalArrangement = Arrangement.spacedBy(5.dp)*/
             ) {
                 Column(
                     modifier = Modifier
@@ -89,10 +83,10 @@ fun PassOnEvent() {
                     horizontalAlignment = Alignment.Start,
                     verticalArrangement = Arrangement.spacedBy(3.dp)
                 ) {
-                    HeadingTextEvent("Вебинар по разработке")
+                    HeadingTextEvent(text = "Вебинар по разработке")
                     FromTimeTextEvent(text = "Первое января, 2024, 14:30")
                     ToTimeTextEvent(text = "Первое января, 2024, 15:40")
-                    DiscriptionTextEvent()
+                    DescriptionTextEvent(text = "ojgowsemjopgmjeopswm-ORKIOJOBPGJ[OPJU,BY[9POJ,UYOO[BPR,JOSJ,OPB,JSOPJjpotjd,r9pov,jpod,jrovgprjdopjbpoidjhi0oprd,jiopjdpobjop,j[opprbj5iobuj9sruyoskbosfjopdb,kkbsopi[jrtgb,jrdipsj,gbipords,jbojsdiogbj,srdop[bjgodpxji[pgjkdsopbg,rsidhjgip[srej,gbvpishjiogphgbpopsnmsdhpbpmpnspopmnhopszmnhbopsedmsnophbmnsesopsdmhnbspsodesmnshpobpnmpspohbmnespdpopshmbnosopsdnmshsbopesnmdopsghpsbnmsopdshbsnmospshbnsmps[hmnbpesnsmsopnm sopshnmopepsnmbhopesnmohbpnesophbnopeshbnopesnbhopnmshgopsnhbopesnmbhopensmbhopesndophbn[esnhbmoesdnmbhoesdmnblsmgbopsdmgvopemsopgmnbpvop'sers'mgsblsm;cxmnbpnmseropinmgbpaesnmgpoijg-0aoqekjo0ptkwopjtopwafmanmgfopamgjpojwamgowpw[sgmjswiopajmapowejmpwiponeamopigmnjEionjmgFN")
                 }
             }
         }

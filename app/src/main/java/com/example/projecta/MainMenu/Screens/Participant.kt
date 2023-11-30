@@ -28,24 +28,29 @@ import androidx.compose.ui.unit.sp
 import com.example.projecta.R
 import com.example.projecta.MaterialButton
 import com.example.projecta.Background
+import com.example.projecta.MainMenu.Screens.ParticipantSubscreens.JoinDialog
 
 @Composable
-fun Participant() {
+fun Participant(EventCardNavigation: () -> Unit) {
     Background()
+    val joinDialog = JoinDialog()
     Scaffold(
         backgroundColor = Color.Transparent,
         bottomBar = {
             Box(contentAlignment = Alignment.Center) {
                 MaterialButton(text="Присоединиться", modifier = Modifier
                     .padding(10.dp)
-                    .fillMaxWidth()) {}
+                    .fillMaxWidth(),
+                    onClick = { joinDialog.value = true })
 
             }
         }
     ) { paddingValues ->
-        LazyColumn(modifier = Modifier.fillMaxSize().padding(paddingValues), horizontalAlignment = Alignment.CenterHorizontally) {
+        LazyColumn(modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues), horizontalAlignment = Alignment.CenterHorizontally) {
             itemsIndexed(eventsGetter()) { index, item ->
-                EventCard(item.title, item.description)
+                EventCard(item.title, item.description, EventCardNavigation)
             }
         }
     }
@@ -91,13 +96,13 @@ fun eventsGetter(): List<EventItem> {
 data class EventItem(val title: String, val description: String)
 
 @Composable
-fun EventCard(title: String, description: String) {
+fun EventCard(title: String, description: String, EventCardNavigation:()->Unit) {
     Card(
         modifier = Modifier
             .padding(10.dp)
             .fillMaxWidth()
             .heightIn(min = 100.dp, max = 150.dp)
-            .clickable { },
+            .clickable(onClick = EventCardNavigation),
         colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
         Box(

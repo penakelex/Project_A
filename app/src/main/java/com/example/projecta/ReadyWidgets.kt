@@ -1,24 +1,26 @@
 package com.example.projecta
 
+import android.widget.TextView.SavedState
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -33,7 +35,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -44,7 +45,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.projecta.ui.theme.MainColor
 import com.example.projecta.ui.theme.TextBox
-import java.time.format.TextStyle
 
 @Composable
 fun LogoImage(modifier: Modifier = Modifier) {
@@ -122,8 +122,7 @@ fun MaterialButton(modifier: Modifier = Modifier, text:String="", onClick:()->Un
 }
 @Composable
 fun MaterialImageButton(modifier: Modifier = Modifier, size: Int = 32, painterResource: Painter, onClick:()->Unit) {
-
-    androidx.compose.material3.IconButton(
+    IconButton(
         onClick = onClick,
         modifier = modifier
     ) {
@@ -133,21 +132,28 @@ fun MaterialImageButton(modifier: Modifier = Modifier, size: Int = 32, painterRe
 }
 
 @Composable
-fun HeadingTextEvent(text: String = "Название вашего мероприятия"){
-    androidx.compose.material.Text(text = text, fontWeight = FontWeight.Bold, fontSize = 20.sp)
-}
-@Composable
-fun FromTimeTextEvent(text: String = "dd.mm.yyyy hh:mm"){
-    androidx.compose.material.Text(text = "Начало: " + text, fontSize = 18.sp, maxLines = 1)
-}
-@Composable
-fun ToTimeTextEvent(text: String = "dd.mm.yyyy hh:mm"){
-    androidx.compose.material.Text(text = "Конец: " + text, fontSize = 18.sp, maxLines = 1)
+fun HeadingTextEvent(text: String = "Название вашего мероприятия") {
+    Text(text = text, fontWeight = FontWeight.Bold, fontSize = 20.sp)
 }
 
 @Composable
-fun DiscriptionTextEvent(text: String = "что-то"){
-    androidx.compose.material.Text(text = "Описание: " + text, fontSize = 18.sp, maxLines = 22)
+fun FromTimeTextEvent(text: String = "dd.mm.yyyy hh:mm") {
+    Text(text = "Начало: " + text, fontSize = 18.sp, maxLines = 1)
+}
+
+@Composable
+fun ToTimeTextEvent(text: String = "dd.mm.yyyy hh:mm") {
+    Text(text = "Конец: " + text, fontSize = 18.sp, maxLines = 1)
+}
+
+@Composable
+fun DescriptionTextEvent(text: String = "что-то") {
+    Text(text = "Описание: ", fontSize = 18.sp, maxLines = 22)
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .verticalScroll(state = rememberScrollState())) {
+        Text(text = text, fontSize = 18.sp, maxLines = 22)
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -211,10 +217,8 @@ fun HeadingTextComponent(
                     textValue.value = it
                 }
             },
-            singleLine = true,
+            singleLine = true
         )
-
-
     }
 }
 
@@ -227,7 +231,8 @@ fun TextComponent(
     labelValue: String = "",
     maxLenght: Int = 0,
     mask: VisualTransformation = VisualTransformation.None,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    singleLine:Boolean=false
 ) {
 
     val textValue = remember {
@@ -279,6 +284,7 @@ fun TextComponent(
 
             },
             visualTransformation = mask,
+            singleLine = singleLine
         )
     }
 }

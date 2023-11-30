@@ -40,7 +40,7 @@ import com.example.projecta.MaterialTextField
 import com.example.projecta.R
 
 @Composable
-fun ProfileEdit(profileNavigate:()->Unit) {
+fun ProfileEdit(ProfileNavigate:()->Unit) {
     val newParams = mutableMapOf<String, MutableState<String>>()
     Background()
     Card(
@@ -81,7 +81,7 @@ fun ProfileEdit(profileNavigate:()->Unit) {
                 modifier = Modifier
                     .padding(0.dp),
                 text = "Сохранить",
-                onClick = profileNavigate
+                onClick = ProfileNavigate
             )
         }
         LazyColumn(

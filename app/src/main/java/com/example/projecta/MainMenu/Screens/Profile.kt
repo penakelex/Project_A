@@ -29,10 +29,11 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.projecta.Background
 import com.example.projecta.MaterialButton
+import com.example.projecta.MaterialImageButton
 import com.example.projecta.R
 
 @Composable
-fun Profile(profileEditNavigate:()->Unit) {
+fun Profile(profileEditNavigate:()->Unit, SignInNavigate:()->Unit) {
     Background()
     Card(modifier = Modifier
         .padding(10.dp)
@@ -51,7 +52,8 @@ fun Profile(profileEditNavigate:()->Unit) {
         }
         Row(modifier = Modifier
             .fillMaxWidth()
-            .padding(10.dp), horizontalArrangement = Arrangement.Center) {
+            .padding(10.dp), horizontalArrangement = Arrangement.spacedBy(5.dp, alignment = Alignment.CenterHorizontally)) {
+            MaterialImageButton(painterResource = painterResource(id = R.drawable.exit), onClick = SignInNavigate)
             MaterialButton(text="Редактировать", onClick = profileEditNavigate)
         }
         LazyColumn(modifier = Modifier

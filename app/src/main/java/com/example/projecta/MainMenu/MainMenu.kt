@@ -27,6 +27,12 @@ import com.example.projecta.MainMenu.Screens.Participant
 import com.example.projecta.MainMenu.Screens.Profile
 import com.example.projecta.R
 import com.example.projecta.Background
+import com.example.projecta.MainMenu.Screens.OrganizerSubscreens.EventCreator
+import com.example.projecta.MainMenu.Screens.OrganizerSubscreens.EventOrganizerWindow
+import com.example.projecta.MainMenu.Screens.OrganizerSubscreens.EventEdit
+import com.example.projecta.MainMenu.Screens.OrganizerSubscreens.EventParticipants
+import com.example.projecta.MainMenu.Screens.ParticipantSubscreens.EventCard
+import com.example.projecta.MainMenu.Screens.ParticipantSubscreens.EventInvitation
 import com.example.projecta.MainMenu.Screens.ProfileSubscreens.ProfileEdit
 import com.example.projecta.ui.theme.MainColor
 
@@ -38,15 +44,33 @@ private fun prepareBottomMenu(): List<BottomMenuItem> {
     val bottomMenuItemsList = arrayListOf<BottomMenuItem>()
 
 
-    bottomMenuItemsList.add(BottomMenuItem(label = "Профиль", icon = R.drawable.profile, route = "Profile" ))
-    bottomMenuItemsList.add(BottomMenuItem(label = "Участник", icon = R.drawable.participant, route = "Participant"))
-    bottomMenuItemsList.add(BottomMenuItem(label = "Организатор", icon = R.drawable.organizer, route = "Organizer"))
+    bottomMenuItemsList.add(
+        BottomMenuItem(
+            label = "Профиль",
+            icon = R.drawable.profile,
+            route = "Profile"
+        )
+    )
+    bottomMenuItemsList.add(
+        BottomMenuItem(
+            label = "Участник",
+            icon = R.drawable.participant,
+            route = "Participant"
+        )
+    )
+    bottomMenuItemsList.add(
+        BottomMenuItem(
+            label = "Организатор",
+            icon = R.drawable.organizer,
+            route = "Organizer"
+        )
+    )
 
     return bottomMenuItemsList
 }
 
 @Composable
-fun MainMenu(startDestination:String = "Participant") {
+fun MainMenu(startDestination: String = "Participant", signInNavigate: () -> Unit) {
     Background()
     val navController = rememberNavController()
     Scaffold(
@@ -61,7 +85,7 @@ fun MainMenu(startDestination:String = "Participant") {
                         onClick = {
                             navController.navigate(item.route) {
                                 popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState=true
+                                    saveState = true
                                 }
                                 launchSingleTop = true
                                 restoreState = true
@@ -69,36 +93,109 @@ fun MainMenu(startDestination:String = "Participant") {
                         },
                         icon = {
                             Image(
-                                modifier=Modifier.size(30.dp),
+                                modifier = Modifier.size(30.dp),
                                 painter = painterResource(id = item.icon),
-                                contentDescription = null)
+                                contentDescription = null
+                            )
                         },
                         label = {
                             Text(item.label)
                         },
-                        colors = NavigationBarItemDefaults.colors(selectedIconColor = MainColor, selectedTextColor = MainColor)
+                        colors = NavigationBarItemDefaults.colors(
+                            selectedIconColor = MainColor,
+                            selectedTextColor = MainColor
+                        )
                     )
                 }
             }
         }
     ) { paddingValues ->
-        Box(modifier = Modifier.padding(paddingValues).fillMaxSize()) {
+        Box(
+            modifier = Modifier
+                .padding(paddingValues)
+                .fillMaxSize()
+        ) {
             NavHost(navController = navController, startDestination = startDestination) {
+
+                // BottomNavigation
                 composable(route = "Participant") {
-                    Participant()
+                    Participant(
+                        EventCardNavigation = { navController.navigate("EventCard") }
+                    )
                 }
                 composable(route = "Organizer") {
-                    Organizer()
+                    Organizer(
+                        EventOrganizerWindowNavigation = { navController.navigate("EventOrganizerWindow") },
+                        EventCreatorNavigation = { navController.navigate("EventCreator") }
+                    )
                 }
                 composable(route = "Profile") {
-                    Profile() {
-                        navController.navigate("ProfileEdit")
-                    }
+                    Profile(
+                        SignInNavigate = signInNavigate,
+                        profileEditNavigate = { navController.navigate("ProfileEdit") }
+                    )
                 }
+
+                // ProfileSubscreens
                 composable("ProfileEdit") {
                     ProfileEdit() {
-                        navController.navigate("Profile")
+                        navController.popBackStack()
                     }
+                }
+
+                // ParticipantSubscreens
+                composable("QrCodeParticipant") {
+                    QrCodeParticipant(
+                        BackNavigation =  { navController.popBackStack() }
+                    )
+                }
+
+                composable("EventCard") {
+                    EventCard(
+                        QrCodeParticipantNavigation = { navController.navigate("QrCodeParticipant") },
+                        BackNavigation =  { navController.popBackStack() }
+                    )
+                }
+                composable("EventInvitation") {
+                    EventInvitation(
+                        MainMenuNavigation = { navController.navigate("Participant") },
+                        BackNavigation = { navController.popBackStack() }
+                    )
+                }
+                // OrganizerSubscreens
+                composable("EventOrganizerWindow") {
+                    EventOrganizerWindow(
+                        EventEditNavigation = { navController.navigate("EventEdit") },
+                        QrCodeOrganizerNavigation = { navController.navigate("QrCodeOrganizer") },
+                        BackNavigation = { navController.popBackStack() },
+                        EventParticipantsNavigation = { navController.navigate("EventParticipants") }
+                    )
+                }
+                composable("EventParticipants") {
+                    EventParticipants(
+                        BackNavigation = { navController.popBackStack() }
+                    )
+                }
+                composable("QrCodeOrganizer") {
+                    QrCodeOrganizer(
+                        BackNavigation = { navController.popBackStack() }
+                    )
+                }
+                composable("EventEdit") {
+                    EventEdit(
+                        MainMenuNavigation = {
+                            navController.navigate("Organizer") {
+                                popUpTo(0)
+                            }
+                        },
+                        BackNavigation = { navController.popBackStack() }
+                    )
+                }
+                composable("EventCreator") {
+                    EventCreator(
+                        MainMenuNavigation = { navController.navigate("Organizer") },
+                        BackNavigation =  { navController.popBackStack() }
+                    )
                 }
             }
         }

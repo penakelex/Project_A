@@ -1,5 +1,7 @@
 package com.example.projecta.MainMenu
 
+import android.content.ClipData
+import android.content.Context.CLIPBOARD_SERVICE
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,7 +19,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.ClipboardManager
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -30,7 +35,10 @@ import com.example.projecta.TextCode
 import com.example.projecta.YourImage
 
 @Composable
-fun QrCodeOrganizer() {
+fun QrCodeOrganizer(BackNavigation: () -> Unit) {
+    val code: String = getCode()
+    val clipboardManager: ClipboardManager = LocalClipboardManager.current
+
     Background()
     Card(
         modifier = Modifier
@@ -47,11 +55,6 @@ fun QrCodeOrganizer() {
         )
         {
             Box(
-                modifier = Modifier.size(100.dp)
-            ) {
-                YourImage(painterResource = painterResource(id = R.drawable.profile))
-            }
-            Box(
                 modifier = Modifier
                     .height(300.dp)
                     .width(300.dp)
@@ -62,12 +65,14 @@ fun QrCodeOrganizer() {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally)
             ) {
-                TextCode(text = "gi25ngp2j5")
+                TextCode(text = code)
                 MaterialImageButton(
                     modifier = Modifier
                         .width(30.dp)
                         .height(30.dp), 24, painterResource = painterResource(id = R.drawable.copy)
-                ) {}
+                ) {
+                    clipboardManager.setText(AnnotatedString(code))
+                }
             }
             Text("Покажите QR-код, чтобы пригласить участника", fontSize = 22.sp, textAlign = TextAlign.Center)
             Column(
@@ -76,23 +81,26 @@ fun QrCodeOrganizer() {
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center,
+                    horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     MaterialImageButton(
                         modifier = Modifier
                             .height(60.dp)
                             .width(60.dp),
-                        50,
-                        painterResource = painterResource(id = R.drawable.back)
-                    ) {}
+                        painterResource = painterResource(id = R.drawable.back),
+                        onClick = BackNavigation)
                     MaterialButton(
                         text = "Обновить", modifier = Modifier
                             .width(220.dp)
-                            .height(60.dp)
+                            .height(50.dp)
                     ) {}
                 }
             }
         }
     }
+}
+
+fun getCode(): String {
+    return "kdi56empd2"
 }

@@ -49,7 +49,7 @@ fun SignUp(signInNavigate:()->Unit) {
                 hint="Пароль"
             )
             MaterialButton(modifier=Modifier.padding(top=40.dp).width(250.dp).height(50.dp), text="Уже есть аккаунт", onClick = signInNavigate)
-            MaterialButton(modifier=Modifier.width(250.dp).height(50.dp), text="Зарегистрироваться") {signInNavigate}
+            MaterialButton(modifier=Modifier.width(250.dp).height(50.dp), text="Зарегистрироваться", onClick = signInNavigate)
         }
     }
 }
