@@ -28,7 +28,9 @@ import androidx.compose.ui.unit.sp
 import com.example.projecta.R
 import com.example.projecta.MaterialButton
 import com.example.projecta.Background
+import com.example.projecta.Events
 import com.example.projecta.MainMenu.Screens.ParticipantSubscreens.JoinDialog
+import java.util.Date
 
 @Composable
 fun Participant(EventCardNavigation: () -> Unit) {
@@ -49,8 +51,8 @@ fun Participant(EventCardNavigation: () -> Unit) {
         LazyColumn(modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues), horizontalAlignment = Alignment.CenterHorizontally) {
-            itemsIndexed(eventsGetter()) { index, item ->
-                EventCard(item.title, item.description, EventCardNavigation)
+            itemsIndexed(getEvents()) { index, item ->
+                EventCard(item.name, item.description, EventCardNavigation)
             }
         }
     }
@@ -58,42 +60,26 @@ fun Participant(EventCardNavigation: () -> Unit) {
 
 }
 
-fun eventsGetter(): List<EventItem> {
-    val bottomMenuItemsList = arrayListOf<EventItem>()
+fun getEvents(): List<Events> {
+    val eventsList = arrayListOf<Events>().apply {
+        add(Events(
+            organizers = arrayOf(1341U),
+            name = "Битва хоров в лицее",
+            start = 18404107UL,
+            end = 18404107UL,
+            description = "Битва хоров - формат музыкального соревнования, в котором состязаются хоровые коллективы",
+            picture = "https://cdn-icons-png.flaticon.com/128/149/149452.png"))
+        add(Events(
+            organizers = arrayOf(1341U),
+            name = "Битва хоров в лицее",
+            start = 18404107UL,
+            end = 18404107UL,
+            description = "Битва хоров - формат музыкального соревнования, в котором состязаются хоровые коллективы",
+            picture = "https://cdn-icons-png.flaticon.com/128/149/149452.png"))
+    }
 
-
-    bottomMenuItemsList.add(
-        EventItem(
-            title = "Битва хоров в лицее",
-            description = "Битва хоров - формат музыкального соревнования, в котором состязаются хоровые коллективы.\n" +
-                    "\n" +
-                    "Многие, в этом году, впервые узнали что это такое, а кто-то после двухлетнего перерыва, связанного с пандемией коронавируса, вновь окунулся в атмосферу музыки.\n" +
-                    "\n" +
-                    "Конкурс проходит в два тура: в первом туре коллективы поют тематическую песню (в этом году тематическая песня была посвящена близким и родным людям), а во втором туре - новогоднюю песню. "
-        )
-    )
-    bottomMenuItemsList.add(
-        EventItem(
-            title = "Вебинар по разработке андроид приложений",
-            description = "На вебинаре мы рассмотрим и обсудим самые актуальные тренды мобильной разработки под Android на 2022 год. Поговорим о том, какие нововедения вышли в 2021 году и что будет актуально для новых проектов в 2022 году.\n" +
-                    "\n" +
-                    "План вебинара:\n" +
-                    "\n" +
-                    "1) SingleActivity Application, NavigationController\n" +
-                    "2) Декларативная разметка экрана Jetpack Compose, замена xml макетов\n" +
-                    "3) Карутины, flow, потоковая обработка событий архитектуры MVVM, замена LiveData\n" +
-                    "4) Использование карутин в Jetpack Compose\n" +
-                    "5) State Jetpack Compose\n" +
-                    "6) Dependency Injection\n" +
-                    "7) Dagger 2\n" +
-                    "8) Hilt"
-        )
-    )
-
-    return bottomMenuItemsList
+    return eventsList
 }
-
-data class EventItem(val title: String, val description: String)
 
 @Composable
 fun EventCard(title: String, description: String, EventCardNavigation:()->Unit) {

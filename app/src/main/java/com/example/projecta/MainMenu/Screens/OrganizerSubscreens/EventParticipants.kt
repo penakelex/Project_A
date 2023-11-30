@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.sp
 import com.example.projecta.Background
 import com.example.projecta.MainMenu.Screens.EventCard
 import com.example.projecta.MainMenu.Screens.ParticipantSubscreens.JoinDialog
-import com.example.projecta.MainMenu.Screens.eventsGetter
+import com.example.projecta.MainMenu.Screens.getEvents
 import com.example.projecta.MaterialButton
 import com.example.projecta.MaterialImageButton
 import com.example.projecta.R
@@ -59,8 +59,42 @@ fun EventParticipants(BackNavigation:()->Unit) {
         LazyColumn(modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues), horizontalAlignment = Alignment.CenterHorizontally) {
-            itemsIndexed(eventsGetter()) { index, item ->
+            itemsIndexed(getEvents()) { index, item ->
                 //EventCard(item.title, item.description, EventCardNavigation)
+            }
+        }
+    }
+}
+
+@Composable
+fun ParticipantCard(data:MutableMap<String, String>) {
+    Card(
+        modifier = Modifier
+            .padding(10.dp)
+            .fillMaxWidth()
+            .heightIn(min = 100.dp, max = 150.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White)
+    ) {
+        Row() {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp)
+            ) {
+                Image(
+                    modifier = Modifier.fillMaxSize(),
+                    painter = painterResource(id = R.drawable.empty_avatar),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop
+                )
+            }
+            LazyColumn(
+                modifier = Modifier.padding(start = 10.dp, end = 10.dp, top = 2.dp, bottom = 10.dp),
+                verticalArrangement = Arrangement.spacedBy(5.dp)
+            ) {
+                itemsIndexed(data.values.toList()) { _, value ->
+                    Text(text = value, fontSize = 20.sp, maxLines = 1)
+                }
             }
         }
     }

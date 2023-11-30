@@ -28,20 +28,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.projecta.Background
-import com.example.projecta.MainMenu.Screens.ParamView
-import com.example.projecta.MainMenu.Screens.paramsGetter
 import com.example.projecta.MaterialButton
 import com.example.projecta.MaterialTextField
 import com.example.projecta.R
+import com.example.projecta.User
+import com.example.projecta.UserUpdate
 
 @Composable
-fun ProfileEdit(ProfileNavigate:()->Unit) {
-    val newParams = mutableMapOf<String, MutableState<String>>()
+fun ProfileEdit(profileUser:MutableState<User>, BackNavigation:()->Unit) {
+    val name: MutableState<String> = remember{mutableStateOf(profileUser.value.name)}
+    val surname: MutableState<String> = remember{mutableStateOf(profileUser.value.surname)}
+    val patronymic: MutableState<String> = remember{mutableStateOf(profileUser.value.patronymic)}
+    val email: MutableState<String> = remember{ profileUser.value.email?.let { mutableStateOf(it) } ?: mutableStateOf("") }
+    val phone: MutableState<String> = remember{ profileUser.value.phone?.let { mutableStateOf(it) } ?: mutableStateOf("")}
+    val status: MutableState<String> = remember{mutableStateOf(profileUser.value.status)}
+
     Background()
     Card(
         modifier = Modifier
@@ -81,29 +86,44 @@ fun ProfileEdit(ProfileNavigate:()->Unit) {
                 modifier = Modifier
                     .padding(0.dp),
                 text = "Сохранить",
-                onClick = ProfileNavigate
+                onClick = {
+                    profileUser.value = User(phone.value, email.value, name.value, surname.value, patronymic.value, status.value)
+                    val userUpdate = UserUpdate(phone.value, name.value, surname.value, patronymic.value, status.value)
+                    BackNavigation()
+                }
             )
         }
         LazyColumn(
             modifier = Modifier
                 .padding(10.dp)
         ) {
-            paramsGetter().forEach {
-                item {
-                    newParams[it.key] = ParamEditor(it.key, it.value)
-                }
+            item {
+                ParamEditor("Имя", name)
+            }
+            item {
+                ParamEditor("Фамилия", surname)
+            }
+            item {
+                ParamEditor("Отчество", patronymic)
+            }
+            item {
+                ParamEditor("Почта", email)
+            }
+            item {
+                ParamEditor("Телефон", phone)
+            }
+            item {
+                ParamEditor("Статус", status)
             }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ParamEditor(key: String, defaultValue: String = ""): MutableState<String> {
+fun ParamEditor(key: String, defaultValue: MutableState<String>) {
     var param = remember { mutableStateOf(defaultValue) }
     Column() {
         Text(key, fontSize = 20.sp, fontWeight = FontWeight(1000))
-        MaterialTextField(modifier=Modifier.fillMaxWidth().padding(start = 10.dp), text =param, hint=key, fontSize = 17.sp)
+        MaterialTextField(modifier=Modifier.fillMaxWidth().padding(start = 10.dp), text =defaultValue, hint=key, fontSize = 17.sp)
     }
-    return param
 }

@@ -12,7 +12,9 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -27,13 +29,18 @@ import com.example.projecta.MainMenu.Screens.Participant
 import com.example.projecta.MainMenu.Screens.Profile
 import com.example.projecta.R
 import com.example.projecta.Background
+import com.example.projecta.Events
 import com.example.projecta.MainMenu.Screens.OrganizerSubscreens.EventCreator
 import com.example.projecta.MainMenu.Screens.OrganizerSubscreens.EventOrganizerWindow
 import com.example.projecta.MainMenu.Screens.OrganizerSubscreens.EventEdit
 import com.example.projecta.MainMenu.Screens.OrganizerSubscreens.EventParticipants
 import com.example.projecta.MainMenu.Screens.ParticipantSubscreens.EventCard
 import com.example.projecta.MainMenu.Screens.ParticipantSubscreens.EventInvitation
+import com.example.projecta.MainMenu.Screens.ParticipantSubscreens.getEvent
 import com.example.projecta.MainMenu.Screens.ProfileSubscreens.ProfileEdit
+import com.example.projecta.MainMenu.Screens.getEvents
+import com.example.projecta.MainMenu.Screens.getUser
+import com.example.projecta.User
 import com.example.projecta.ui.theme.MainColor
 
 
@@ -118,6 +125,7 @@ fun MainMenu(startDestination: String = "Participant", signInNavigate: () -> Uni
             NavHost(navController = navController, startDestination = startDestination) {
 
                 // BottomNavigation
+                val ParticipantEvent: MutableState<List<Events>> = mutableStateOf(getEvents())
                 composable(route = "Participant") {
                     Participant(
                         EventCardNavigation = { navController.navigate("EventCard") }
@@ -129,18 +137,22 @@ fun MainMenu(startDestination: String = "Participant", signInNavigate: () -> Uni
                         EventCreatorNavigation = { navController.navigate("EventCreator") }
                     )
                 }
+
+                val profileUser: MutableState<User> = mutableStateOf(getUser())
                 composable(route = "Profile") {
                     Profile(
                         SignInNavigate = signInNavigate,
-                        profileEditNavigate = { navController.navigate("ProfileEdit") }
+                        profileEditNavigate = { navController.navigate("ProfileEdit") },
+                        profileUser = profileUser
                     )
                 }
 
                 // ProfileSubscreens
                 composable("ProfileEdit") {
-                    ProfileEdit() {
-                        navController.popBackStack()
-                    }
+                    ProfileEdit(
+                        profileUser = profileUser,
+                        BackNavigation = { navController.popBackStack() }
+                    )
                 }
 
                 // ParticipantSubscreens
