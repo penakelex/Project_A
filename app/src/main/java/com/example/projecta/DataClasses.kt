@@ -120,7 +120,6 @@ data class Events(
 
 @Serializable
 data class UserRegister(
-    val code: String,
     val phone: String?,
     val email: String?,
     val password: String,

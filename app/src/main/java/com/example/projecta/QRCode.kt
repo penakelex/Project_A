@@ -95,7 +95,7 @@ class QRCode(val componentActivity: ComponentActivity) {
         ) {
             showCamera()
         } else if (shouldShowRequestPermissionRationale(
-                MainActivity(),
+                componentActivity,
                 android.Manifest.permission.CAMERA
             )
         ) {

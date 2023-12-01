@@ -6,13 +6,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Scaffold
 import androidx.compose.material3.Card
@@ -59,27 +62,37 @@ fun EventParticipants(BackNavigation:()->Unit) {
         LazyColumn(modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues), horizontalAlignment = Alignment.CenterHorizontally) {
-            itemsIndexed(getEvents()) { index, item ->
-                //EventCard(item.title, item.description, EventCardNavigation)
+            item {
+                ParticipantCard("Имя", "Фамилия", "Отчество", "Телефон", "Почта", "Статус")
             }
+            item {
+                ParticipantCard("Имя", "Фамилия", "Отчество", "Телефон", "Почта", "Статус")
+            }
+            item {
+                ParticipantCard("Имя", "Фамилия", "Отчество", "Телефон", "Почта", "Статус")
+            }
+            /*
+            itemsIndexed(getEvents()) { index, item ->
+                //ParticipantCard(item.title, item.description, EventCardNavigation)
+            }*/
         }
+
     }
 }
 
 @Composable
-fun ParticipantCard(data:MutableMap<String, String>) {
+fun ParticipantCard(name:String, surname:String, patronymic:String, phone:String, email:String, status:String) {
     Card(
         modifier = Modifier
             .padding(10.dp)
             .fillMaxWidth()
-            .heightIn(min = 100.dp, max = 150.dp),
+            .height(80.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
         Row() {
             Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp)
+                    .size(80.dp)
             ) {
                 Image(
                     modifier = Modifier.fillMaxSize(),
@@ -89,11 +102,26 @@ fun ParticipantCard(data:MutableMap<String, String>) {
                 )
             }
             LazyColumn(
-                modifier = Modifier.padding(start = 10.dp, end = 10.dp, top = 2.dp, bottom = 10.dp),
-                verticalArrangement = Arrangement.spacedBy(5.dp)
+                modifier = Modifier.padding(start = 10.dp, end = 10.dp, top = 2.dp, bottom = 10.dp).fillMaxHeight(),
+                verticalArrangement = Arrangement.spacedBy(2.dp)
             ) {
-                itemsIndexed(data.values.toList()) { _, value ->
-                    Text(text = value, fontSize = 20.sp, maxLines = 1)
+                item {
+                    Text("Имя: $name")
+                }
+                item {
+                    Text("Фамилия: $surname")
+                }
+                item {
+                    Text("Отчество: $patronymic")
+                }
+                item {
+                    Text("Телефон: $phone")
+                }
+                item {
+                    Text("Почта: $email")
+                }
+                item {
+                    Text("Статус: $status")
                 }
             }
         }

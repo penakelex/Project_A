@@ -32,6 +32,11 @@ fun initNavigationGate() {
         }
         composable("SignUp") {
             SignUp(
+                MainMenuNavigate = {
+                    navController.navigate("MainMenu") {
+                        popUpTo(0)
+                    }
+                },
                 signInNavigate = {
                     navController.navigate("SignIn") {
                         popUpTo(0)

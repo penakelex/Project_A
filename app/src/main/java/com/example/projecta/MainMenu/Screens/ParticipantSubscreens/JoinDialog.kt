@@ -35,15 +35,13 @@ import com.example.projecta.MaterialTextField
 import com.example.projecta.QRCode
 import com.example.projecta.QrCodeImage
 import com.example.projecta.TextComponent
+import com.example.projecta.qrcode
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun JoinDialog(): MutableState<Boolean> {
     val openDialog = remember { mutableStateOf(false) }
-    val code = remember { mutableStateOf("") }
-    val activity = LocalContext.current
-    //val qrcode = QRCode(activity)
-    //val textResult = qrcode.getTextResult()
+    val code = qrcode.getTextResult()
 
     if (openDialog.value) {
         AlertDialog(
@@ -63,13 +61,18 @@ fun JoinDialog(): MutableState<Boolean> {
                     MaterialButton(
                         text = "Использовать QR код"
                     ) {
-                        //qrcode.scan()
+                        qrcode.scan()
+                        if (qrcode.getSuccess()) {
+                            //TODO qr invitation
+                        }
                     }
                     Spacer(modifier = Modifier.padding(5.dp))
                     MaterialTextField(text = code, hint = "Код приглашения")
                     MaterialButton(
                         text = "Использовать код приглашения"
-                    ) {}
+                    ) {
+                        //TODO code invitation
+                    }
                 }
             }
         }

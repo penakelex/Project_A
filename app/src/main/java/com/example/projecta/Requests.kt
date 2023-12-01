@@ -29,9 +29,9 @@ suspend fun registerUser(user: UserRegister, domain: String) : String{
     client.close()
     return response.bodyAsText()
 }
-suspend fun updateUser(user: UserUpdate, domain: String) : String{
+suspend fun updateUser(user: UserUpdate, domain: String) : String {
     val client = HttpClient(CIO)
-    val response: HttpResponse = client.post(domain + "/user/update")    {
+    val response: HttpResponse = client.post(domain + "/user/update") {
         contentType(ContentType.Application.Json)
         setBody(Json.encodeToString(user))
     }
