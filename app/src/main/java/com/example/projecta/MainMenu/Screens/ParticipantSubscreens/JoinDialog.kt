@@ -61,7 +61,7 @@ fun JoinDialog(): MutableState<Boolean> {
                     MaterialButton(
                         text = "Использовать QR код"
                     ) {
-                        qrcode.scan()
+                       // qrcode.scan()
                         if (qrcode.getSuccess()) {
                             //TODO qr invitation
                         }
